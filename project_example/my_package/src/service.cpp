@@ -4,7 +4,7 @@
 #include "my_interface/srv/my_srv.hpp"
 
 /******************************************************************************
- * @brief   Servicio que recibe 3 enteros y devuelve la suma.
+ *  @brief  Servicio que recibe 3 enteros y devuelve la suma.
  * 
  *  @arg    - request: Contiene los elementos de la solicitud (a, b, c).
  * 
@@ -12,9 +12,11 @@
  * 
  *  @return Void.
  ******************************************************************************/
-void add(const std::shared_ptr<my_interface::srv::MySrv::Request> request,
-          std::shared_ptr<my_interface::srv::MySrv::Response>  response)
-{
+void add(
+    const std::shared_ptr<my_interface::srv::MySrv::Request> request,
+    std::shared_ptr<my_interface::srv::MySrv::Response> response
+    ) {
+
     response->sum = request->a + request->b + request->c;
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Incoming request\na: %ld" " b: %ld" " c: %ld",
                     request->a, request->b, request->c);
@@ -22,15 +24,14 @@ void add(const std::shared_ptr<my_interface::srv::MySrv::Request> request,
 }
 
 /******************************************************************************
- * @brief   Crea un nodo de nombre "my_service node" y un servicio llamado
+ *  @brief  Crea un nodo de nombre "my_service node" y un servicio llamado
  *          "service_name" que recibe de argumento 3 enteros y devuelve la suma.
  * 
  *  @arg    Void.
  * 
  *  @return None
  ******************************************************************************/
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
 
     std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("my_service_node");

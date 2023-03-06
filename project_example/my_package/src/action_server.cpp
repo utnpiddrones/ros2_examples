@@ -1,18 +1,13 @@
+namespace action_tutorials_cpp {
 
-
-
-namespace action_tutorials_cpp
-{
-class FibonacciActionServer : public rclcpp::Node
-{
+class FibonacciActionServer : public rclcpp::Node {
 public:
   using Fibonacci = action_tutorials_interfaces::action::Fibonacci;
   using GoalHandleFibonacci = rclcpp_action::ServerGoalHandle<Fibonacci>;
 
   ACTION_TUTORIALS_CPP_PUBLIC
   explicit FibonacciActionServer(const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
-  : Node("fibonacci_action_server", options)
-  {
+  : Node("fibonacci_action_server", options) {
     using namespace std::placeholders;
 
     this->action_server_ = rclcpp_action::create_server<Fibonacci>(
@@ -28,30 +23,26 @@ private:
 
   rclcpp_action::GoalResponse handle_goal(
     const rclcpp_action::GoalUUID & uuid,
-    std::shared_ptr<const Fibonacci::Goal> goal)
-  {
+    std::shared_ptr<const Fibonacci::Goal> goal) {
     RCLCPP_INFO(this->get_logger(), "Received goal request with order %d", goal->order);
     (void)uuid;
     return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
   }
 
   rclcpp_action::CancelResponse handle_cancel(
-    const std::shared_ptr<GoalHandleFibonacci> goal_handle)
-  {
+    const std::shared_ptr<GoalHandleFibonacci> goal_handle) {
     RCLCPP_INFO(this->get_logger(), "Received request to cancel goal");
     (void)goal_handle;
     return rclcpp_action::CancelResponse::ACCEPT;
   }
 
-  void handle_accepted(const std::shared_ptr<GoalHandleFibonacci> goal_handle)
-  {
+  void handle_accepted(const std::shared_ptr<GoalHandleFibonacci> goal_handle) {
     using namespace std::placeholders;
     // this needs to return quickly to avoid blocking the executor, so spin up a new thread
     std::thread{std::bind(&FibonacciActionServer::execute, this, _1), goal_handle}.detach();
   }
 
-  void execute(const std::shared_ptr<GoalHandleFibonacci> goal_handle)
-  {
+  void execute(const std::shared_ptr<GoalHandleFibonacci> goal_handle) {
     RCLCPP_INFO(this->get_logger(), "Executing goal");
     rclcpp::Rate loop_rate(1);
     const auto goal = goal_handle->get_goal();

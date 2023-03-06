@@ -1,14 +1,11 @@
-FROM ros:foxy-ros-base-focal
+FROM ros:humble
 
 ###############################################################################
 #   Dependencias
 ###############################################################################
 RUN apt-get update && apt-get install -y \
-      ros-${ROS_DISTRO}-turtlesim \
-      ~nros-${ROS_DISTRO}-rqt* && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update && apt-get install -y \
+    ros-${ROS_DISTRO}-turtlesim \
+    ~nros-${ROS_DISTRO}-rqt* \
     python3-colcon-common-extensions \
     git && \
     rm -rf /var/lib/apt/lists/*
@@ -16,13 +13,8 @@ RUN apt-get update && apt-get install -y \
 ###############################################################################
 #   Creación del proyecto
 ###############################################################################
-ARG PKG_NAME="my_package"
 
-RUN /bin/bash -c "mkdir -p /root/dev_ws/src; \
-    cd /root/dev_ws"
+COPY entrypoint.sh /entrypoint.sh
 
-COPY Docker/entrypoint.sh /entrypoint.sh
-
-WORKDIR /root/dev_ws
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/bin/bash"]

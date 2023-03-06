@@ -8,8 +8,7 @@
 
 using namespace std::chrono_literals;
 
-class Publisher: public rclcpp::Node
-{
+class Publisher: public rclcpp::Node {
 private:  
     rclcpp::TimerBase::SharedPtr timer;
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr pub;
@@ -19,5 +18,4 @@ private:
 
 public:
     Publisher();
-
 };

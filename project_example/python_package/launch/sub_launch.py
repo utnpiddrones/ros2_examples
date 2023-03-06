@@ -6,14 +6,14 @@ from launch_ros.actions import Node
 #   Ejecuta dos nodos, un subscriber y un publisher.
 ###############################################################################
 sub_node = Node(
-    package="my_package",
-    executable="subscriber",
+    package="python_package",
+    executable="sub",
     name="my_subscriber_node"
 )
 
 pub_node = Node(
-    package="my_package",
-    executable="publisher",
+    package="python_package",
+    executable="pub",
     name="my_publisher_node"
 )
 

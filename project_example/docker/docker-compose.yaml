@@ -1,0 +1,33 @@
+services:
+  ros:
+    image: utnpiddrones/ros2_examples:project
+
+    build:
+      context: ${PWD}
+      dockerfile: Dockerfile
+
+    container_name: ros2_ex_cont
+
+    command: sleep 5d
+
+    environment:
+      # Required for GUI
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - uid=${uid}
+      - gid=${gid}
+      - username=${username}
+      - groupname=${groupname}
+
+    volumes:
+      # Required for GUI
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
+      - ${PWD}/entrypoint.sh:/entrypoint.sh
+      - ${PWD}/../${PKG_NAME}:/home/user/ros2_ws/src/${PKG_NAME}
+      - ${PWD}/../${INTERFACE_NAME}:/home/user/ros2_ws/src/${INTERFACE_NAME}
+      - ${PWD}/../${PYTHON_PKG_NAME}:/home/user/ros2_ws/src/${PYTHON_PKG_NAME}
+
+    tty: true
+    stdin_open: true
+    

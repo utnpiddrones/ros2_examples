@@ -6,21 +6,21 @@ from launch_ros.actions import Node
 #   Ejecuta tres nodos, un servidor de servicios, y dos clientes.
 ###############################################################################
 client1_node = Node(
-    package="my_package",
+    package="python_package",
     executable="client",
     name="client_node",
     arguments=[ "1", "2", "3"], # Argumentos del main
 )
 
 client2_node = Node(
-    package="my_package",
+    package="python_package",
     executable="client",
     name="client_node2",
     arguments=["4", "5", "6"],
 )
 
 service_node = Node(
-    package="my_package",
+    package="python_package",
     executable="service",
     name="service_node",
 )

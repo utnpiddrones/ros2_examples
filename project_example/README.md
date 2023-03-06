@@ -1,55 +1,38 @@
-# Proyecto de ejemplo
+# Proyecto de ROS2 de ejemplo usando C++
 
 ## Árbol de directorios
-```
+
+```bash
 project_example
-├── Docker
+├── docker
 ├── my_interface
 │   ├── msg
 │   └── srv
-└── my_package
-    ├── include
-    └── src
+├── my_package
+|    ├── include
+|    ├── launch
+|    └── src
+└── python_package
 ```
 
-* **Docker**: Contiene todos los archivos necesarios para construir el Docker.
+* **docker**: Contiene todos los archivos necesarios para construir la imagen de Docker y ejecutar los containers.
 
 * **my_interface**: Paquete usado para generar un mensaje y servicio personalizado.
 
-* **my_package**: Paquete que contiene un subscriptor, un publicador, un cliente, y un servicio.
+* **my_package**: Paquete que contiene un subscriptor, un publicador, un cliente, y un servicio; además de los archivos "launch" para ejecutar los nodos de ROS2.
 
-Este container utiliza el concepto de `volumenes`. Los cambios que haga dentro de las carpetas `my_interface` y `my_package` se actualizan en tiempo real sobre el contenedor, de modo que puede hacer cambios en el código, volver a construir los paquetes con `colcon build`, y ver los cambios en los nodos de ROS2.
-
-## Buildeo de la imagen
-
-Parado sobre el directorio `Docker`
-```
-$ docker-compose build
-```
+* **python_package**: Lo mismo que `my_package` pero escrito en Python en vez de C++.
 
 ## Ejecución del container
-Ejecutar por única vez al iniciar la computadora:
-
-```
-$ xhost +local:root
-```
 
 Para iniciar el container:
-```
-$ docker-compose pull
-$ docker-compose run --rm --name ros ros
+
+```bash
+./run.sh
 ```
 
-Para ejecutar una nueva terminal:
-```
-$ docker exec -ti ros /bin/bash
-$ cd ~/dev_ws && . install/setup.bash
-```
+En una nueva terminal, ejecute los comandos dentro del container con:
 
-## Archivos launch
-Dentro del Docker, pruebe a ejecutar los archivos launch ya creados:
+```bash
+./exec.sh
 ```
-$ ros2 launch my_package service_launch.py
-$ ros2 launch my_package sub_launch.py
-```
-

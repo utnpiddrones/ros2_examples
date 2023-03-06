@@ -5,13 +5,11 @@
 
 using namespace std::chrono_literals;
 
-class ParametersClass: public rclcpp::Node
-{
+class ParametersClass: public rclcpp::Node {
 private:
     std::string parameter_string;
     rclcpp::TimerBase::SharedPtr timer;
 public:
     ParametersClass();
     void respond();
-
 };
