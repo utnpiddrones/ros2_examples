@@ -1,25 +1,27 @@
 services:
   ros:
-    image: ncotti/ros2:first_steps
+    image: utnpiddrones/ros2_examples:first_steps
 
     build:
       context: .
       dockerfile: Dockerfile
 
-    container_name: ros
-    pull_policy: always
+    container_name: ros2_ex_cont
 
     environment:
       # Required for GUI
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
+      - uid=${uid}
+      - gid=${gid}
+      - username=${username}
+      - groupname=${groupname}
 
     volumes:
       # Required for GUI
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
 
       - ${PWD}/entrypoint.sh:/entrypoint.sh
-    
-    tty: true
-    stdin_open: true
+
+    command: ["sleep 1d"]
     

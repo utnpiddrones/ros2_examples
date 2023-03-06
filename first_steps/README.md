@@ -1,48 +1,35 @@
 # Primeros pasos
 
-En este tutorial vamos a ejecutar `turtlesim` y `rqt`, según indica el [tutorial de CLI Tools de ROS2](https://docs.ros.org/en/foxy/Tutorials.html).
+En este tutorial vamos a ejecutar `turtlesim` y `rqt`, según indica el [tutorial de CLI Tools de ROS2](https://docs.ros.org/en/humble/Tutorials.html), pero usando las herramientas de Docker.
 
-Para generar la imagen, ejecute:
+Para obtener la imagen del servidor ejecute:
 
-```
-$ docker-compose pull
-```
-
-Disclaimer: este contenedor corre una GUI, y para ello es necesario conectar el monitor de su computadora con el contenedor. Los drivers y la forma de conectar los dispositivos varían según el sistema operativo que use. Para este ejemplo y posteriores, se usará GNU Linux con Xhost. Para permitir el uso del periférico (desde la address local, bajo el usuario root), debe correr esta línea cada vez que inicie su computadora:
-
-```
-$ xhost +local:root
+```bash
+docker compose pull
 ```
 
-Luego, ya puede ejecutar el contenedor con:
+Luego, ya puede inciar el contenedor (en segundo plano) con:
 
-```
-$ docker-compose run --rm --name ros ros
-```
-
-Ahora, abra otra terminal, y ejecute:
-```
-$ docker ps
-
-# Verá un output de la siguiente forma:
-CONTAINER ID   IMAGE                     COMMAND                  CREATED         STATUS         PORTS     NAMES
-14c29e3195a8   ncotti/ros2:first_steps   "/entrypoint.sh /bin…"   5 seconds ago   Up 3 seconds             ros
+```bash
+./run.sh
 ```
 
-Como puede ver, ahora hay un container ejecutándose de nombre "ros".
+Finalmente, puede ejecutar diferentes acciones dentro del contenedor con:
 
-Si quiere ejecutar nuevas terminales dentro del mismo container, abra otra terminal y ejecute:
-
-```
-$ docker exec -ti ros /bin/bash
-
-# Una vez dentro del container, hay que sourcear el entorno de ROS2
-$ source "/opt/ros/${ROS_DISTRO}/setup.bash"
+```bash
+./exec.sh
 ```
 
-## Comandos de turtlebot
-```
-$ ros2 run turtlesim turtlesim_node
-$ ros2 run turtlesim turtle_teleop_key
-$ rqt
-```
+## Explicación de los archivos
+
+El archivo `Dockerfile` contiene todas las instrucciones necesarias para construir una *imagen* de Docker. Una imagen es una copia estática de las librerías y dependencias necesarias para poder compilar y/o ejecutar nuestro código.
+
+El archivo `docker-compose.yaml` contiene todas las instrucciones necesarias para instanciar la imagen que creamos previamente, es decir, ejecutar un *contenedor*.
+
+Luego, los otros tres scripts de bash sirven para facilitar el manejo al usuario:
+
+* `run.sh` inicia el contenedor.
+
+* `exec.sh` ejecuta comandos dentro del contenedor, una vez ya inicializado.
+
+* `entrypoint.sh` es un archivo recurrente. Es lo primero que se ejecuta dentro del contendor al iniciarlo. Para este ejemplo, `entrypoint.sh` es un volumen, lo que significa que los cambios hechos desde fuera del contenedor se verán reflejados en tiempo real dentro del mismo.
