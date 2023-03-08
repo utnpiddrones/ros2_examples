@@ -6,7 +6,8 @@ echo "1. Subscriber and publisher routine."
 echo "2. Services and clients."
 echo "3. Parameter example."
 echo "4. Change parameter value."
-echo "5. Interactive terminal."
+echo "5. Subscriber and publisher in Python."
+echo "6. Interactive terminal."
 echo "q. Exit."
 
 read -p "Select option: " -r -n 1 option
@@ -24,7 +25,9 @@ case $option in
         command="ros2 param set /parameter_node my_parameter $REPLY"
     };;
 
-    5) command="/bin/bash";;
+    5) command="ros2 launch python_package sub_launch.py";;
+
+    6) command="/bin/bash";;
 
     *) {
         echo "Exiting..."
